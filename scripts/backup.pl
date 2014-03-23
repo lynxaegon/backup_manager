@@ -77,6 +77,18 @@ for my $conf (@config_files)
 	      print $emailErrors ."\n----------------\n";
      }
     _log($stdout);
+    if(defined $backup->{cmd_after})
+    {
+      my $tmp = $SCRIPTS_DIR.$backup->{cmd_after};
+      #my $tmp_output = `$tmp 2>&1`;
+      my ($stdout, $stderr) = capture { system($tmp) };
+      if($stderr ne "")
+      {
+         # Email but ATM print error
+         $emailErrors .= "Cmd After Error:\n".$stderr."\n\n";
+      }
+      _log($stdout);
+    }
     _log("---------- Finished $backup_name Backup [{logtime}] ----------");    
   }
 }

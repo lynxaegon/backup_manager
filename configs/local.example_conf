@@ -13,6 +13,7 @@
     {
       "name": "MySQL",
       "cmd_before": "mysql.sh",
+      "cmd_after": "mysql_cleanup.sh",
       "location": "/home/backup_manager/pre_backup_files/mysql",
       "exclude_file": "mysql.example_exclude",
       "enabled": true
