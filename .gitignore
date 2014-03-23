@@ -1,0 +1,14 @@
+.gitconfig
+.bash_history
+.bash_logout
+.bashrc
+.config
+.nano_history
+.profile
+.selected_editor
+.ssh
+pre_backup_files
+verbose_log
+configs/*.conf
+configs/*.conf_disabled
+configs/excludes/*.exclude
