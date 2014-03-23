@@ -1,0 +1,21 @@
+{
+  "server" : {
+    "local" : true,
+    "backup_location": "/backup/aurora"
+  },
+  "backup": [
+    {
+      "name": "All Websites",
+      "location": "/var/www",
+      "exclude_file": "www.example_exclude",
+      "enabled": true
+    },
+    {
+      "name": "MySQL",
+      "cmd_before": "mysql.sh",
+      "location": "/home/backup_manager/pre_backup_files/mysql",
+      "exclude_file": "mysql.example_exclude",
+      "enabled": true
+    }
+  ]
+}

@@ -31,6 +31,7 @@ for my $conf (@config_files)
   my $config = <FILE>;
   close FILE;
   $config = decode_json( $config );
+  
   for my $backup (@{$config->{backup}})
   {
     my $backup_name = $backup->{name}; 
@@ -44,12 +45,16 @@ for my $conf (@config_files)
     _log("---------- Started $backup_name Backup [{logtime}] ----------");
 
     my $cmd = $BACKUP_COMMAND;
+    if(defined $config->{server}->{local})
+    {
+        $cmd =~ s/{REMOTE_BACKUP_USER}\@{REMOTE_BACKUP_SERVER}://i
+    }
     $cmd =~ s/{LOCAL_BACKUP_FILES}/$backup->{location}/i;
     $cmd =~ s/{EXCLUDE_FILES}/$EXCLUDE_LOCATION\/$backup->{exclude_file}/i;
     $cmd =~ s/{REMOTE_BACKUP_USER}/$config->{server}->{user}/i;
     $cmd =~ s/{REMOTE_BACKUP_SERVER}/$config->{server}->{host}/i;
     $cmd =~ s/{REMOTE_BACKUP_LOCATION}/$config->{server}->{backup_location}/i;
- 
+    
     if(defined $backup->{cmd_before})
     {
       my $tmp = $SCRIPTS_DIR.$backup->{cmd_before};
@@ -63,13 +68,13 @@ for my $conf (@config_files)
       _log($stdout);
     }
  
-    #my $output = `$cmd 2>&1`;
+    my $output = `$cmd 2>&1`;
      my ($stdout, $stderr) = capture { system($cmd) };
      if($stderr ne "")
      {
         # Email but ATM print error
         $emailErrors .= "Error:\n".$stderr."\n\n";
-	print $emailErrors ."\n----------------\n";
+	      print $emailErrors ."\n----------------\n";
      }
     _log($stdout);
     _log("---------- Finished $backup_name Backup [{logtime}] ----------");    
