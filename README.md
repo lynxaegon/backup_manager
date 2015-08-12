@@ -1,7 +1,7 @@
 Backup Manager
 ==============
 
-The default backup_manager for mReady servers.
+The default backup manager for all my servers.
 
 ### Installation
     $ cpan install JSON
